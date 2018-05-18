@@ -4,7 +4,14 @@ let nodemon = require('gulp-nodemon');
 
 gulp.task('serve',() => {
     sync.init({
-        proxy: 'http://localhost:3500',
+        proxy: {
+            target: "localhost:3500",
+            ws: true
+        },
+        socket: {
+            domain: 'localhost:3100',
+            namespace : 'brauser-sync'
+        }
     });
     nodemon({
         // the script to run the app
