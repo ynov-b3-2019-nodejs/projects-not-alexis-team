@@ -10,11 +10,14 @@ app.use(express.static('public'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(cookieParser(SECRET));
-
-app.use(session({
+const sessionMiddleware = session({
     secret: SECRET,
     resave: false,
     saveUninitialized: false
-}));
+});
+app.use(sessionMiddleware);
 
-module.exports = app;
+module.exports = {
+    app,
+    sessionMiddleware
+};
