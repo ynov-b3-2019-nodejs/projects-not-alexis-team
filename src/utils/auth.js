@@ -34,7 +34,8 @@ function init(User) {
         cookieBuilder(null, user.email);
     });
 
-    passport.deserializeUser((email, cb) => {
+    passport.deserializeUser(deserializeCallback);
+    function deserializeCallback(email, cb) {
         console.log("AUTH ATTEMPT",email);
         // Fetch the user record corresponding to the provided email address
         User.findOne({
@@ -43,10 +44,13 @@ function init(User) {
             if(r) return cb(null, r);
             else return cb(new Error("No user corresponding to the cookie's email address"));
         });
-    });
+    }
+    passport.deserializeCallback = deserializeCallback;
 
     return passport;
 }
+
+
 
 function registerCallback(User) {
     return (req, res) => {

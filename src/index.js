@@ -21,7 +21,7 @@ require('./endpoints/chat')(app,db);
 
 //End of routes behaviors
 
-require('./sockets/main')(io,express.sessionMiddleware);
+require('./sockets/main')(io,express.sessionMiddleware,db,passport);
 
 //Errors management
 require('./utils/errors')(app);
