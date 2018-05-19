@@ -1,7 +1,5 @@
 module.exports = (socket,db) =>  {
     socket.on('msg', function(content){
-        //TODO Store message in db.
-        //TODO Broadcast message
         console.log('Received: ' + content);
         db.Message.create({
             content,

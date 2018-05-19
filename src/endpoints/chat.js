@@ -1,5 +1,16 @@
 module.exports = (app,db) =>{
     app.use((req,res) => {
-        res.render('chat');
+        db.Message.findAll({
+            include : [
+                {
+                    model : db.User
+                }
+            ]
+
+        }).then(messages => {
+            res.render('chat',{
+                messages
+            })
+        });
     })
 };
