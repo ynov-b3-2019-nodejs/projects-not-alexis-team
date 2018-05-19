@@ -2,7 +2,8 @@ extends base.pug
 block content
     div.messages
     div.new-message
-        input(name='message')
-        a.btn Envoyer
+        input(name='message')#new-message
+        a.btn#new-message-btn Envoyer
 block scripts
     script(src='/scripts/socket-init.js')
+    script(src='/scripts/chat.js')

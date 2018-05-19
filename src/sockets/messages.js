@@ -3,5 +3,6 @@ module.exports = (socket) =>  {
         //TODO Store message in db.
         //TODO Broadcast message.
         console.log('message: ' + msg);
+        socket.emit('msg-bd',msg);
     });
 };
