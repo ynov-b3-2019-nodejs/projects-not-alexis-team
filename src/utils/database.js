@@ -34,3 +34,4 @@ db.sync().then((r)=> {
 
 module.exports.sequelize = db;
 module.exports.User = User;
+module.exports.Message = Message;
