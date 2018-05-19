@@ -1,5 +1,5 @@
 div(id="message_"+message.id).message.row
-    div.col.s6.m2.message-date #{message.createdAt.toLocaleString()}
+    div.col.s6.m2.message-date #{new Date(message.createdAt).toLocaleString()}
     div.col.s6.m2.message-sender #{message.user.firstname} #{message.user.lastname}
     div.col.s12.m8.message-content #{message.content}
 

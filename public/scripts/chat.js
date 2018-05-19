@@ -7,5 +7,14 @@ $('#new-message-btn').click((e) => {
 });
 
 socket.on('msg-bd',(msg) => {
+    console.log(msg);
+    let message = $('.message').last();
+    let newMessage = message.clone();
+    $(newMessage).children('.message-content').text(msg.content);
+    $(newMessage).children('.message-sender').text(msg.user.firstname + msg.user.lastname);
+    $(newMessage).children('.message-date').text(new Date(msg.createdAt).toLocaleString());
+    $('.messages').append(newMessage);
+
+
    alert(msg);
 });

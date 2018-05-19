@@ -4,8 +4,12 @@ module.exports = (socket,db) =>  {
         db.Message.create({
             content,
             userId : socket.request.session.full_user.id
+        },{
+            include: [db.User]
         }).then((r) => {
-            socket.emit('msg-bd',content);
+            r.reload().then((r) => {
+                socket.emit('msg-bd', r);
+            });
         });
     });
 };
