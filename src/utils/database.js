@@ -18,6 +18,13 @@ const User = db.define('user', {
     password : { type: sequelize.STRING }
 });
 
+const Message = db.define('message',{
+    content: {type: sequelize.STRING}
+});
+
+Message.belongsTo(User);
+User.hasMany(Message);
+
 // Sync database
 db.sync().then((r)=> {
     console.log("[DATABASE] Database synchronised");
