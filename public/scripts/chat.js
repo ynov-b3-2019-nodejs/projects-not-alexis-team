@@ -18,3 +18,7 @@ socket.on('msg-bd',(msg) => {
 
    alert(msg);
 });
+$('.message .message-date').each((i,o) => {
+    console.log(o);
+    $(o).text(new Date($(o).text()).toLocaleString());
+});
