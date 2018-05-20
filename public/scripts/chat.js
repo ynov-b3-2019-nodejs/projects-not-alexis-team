@@ -8,15 +8,21 @@ $('#new-message-btn').click((e) => {
 
 socket.on('msg-bd',(msg) => {
     console.log(msg);
+    let sent = msg.user.email === $('#user-mail').text();
+    let sentOrReceivedClass = sent ? 'sent' : 'received';
     let message = $('.message').last();
+
     let newMessage = message.clone();
-    $(newMessage).children('.message-content').text(msg.content);
-    $(newMessage).children('.message-sender').text(msg.user.firstname + msg.user.lastname);
-    $(newMessage).children('.message-date').text(new Date(msg.createdAt).toLocaleString());
+    newMessage.removeClass('sent');
+    newMessage.removeClass('received');
+    newMessage.addClass(sentOrReceivedClass);
+    $(newMessage).find('.message-content').text(msg.content);
+    $(newMessage).find('.message-sender').text(msg.user.firstname + msg.user.lastname);
+    $(newMessage).find('.message-date').text(new Date(msg.createdAt).toLocaleString());
+
     $('.messages').append(newMessage);
-
-
-   alert(msg);
+    let messageWrapper = $('.messages-wrapper');
+    messageWrapper[0].scrollTop = messageWrapper[0].scrollHeight;
 });
 $('.message .message-date').each((i,o) => {
     console.log(o);

@@ -14,6 +14,6 @@ module.exports = (io, sessionMiddleware,db,passport) => {
     });
     io.on('connection', function(socket){
         console.log('[SOCKET] CONNECTED ',socket.request.session.passport);
-        require('./messages')(socket,db);
+        require('./messages')(socket,db,io);
     });
 };

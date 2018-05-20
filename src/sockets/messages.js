@@ -1,4 +1,4 @@
-module.exports = (socket,db) =>  {
+module.exports = (socket,db,io) =>  {
     socket.on('msg', function(content){
         console.log('Received: ' + content);
         db.Message.create({
@@ -8,7 +8,7 @@ module.exports = (socket,db) =>  {
             include: [db.User]
         }).then((r) => {
             r.reload().then((r) => {
-                socket.emit('msg-bd', r);
+                io.emit('msg-bd', r);
             });
         });
     });

@@ -1,6 +1,9 @@
-div(id="message_"+message.id).message
-    div.row
-        div.col.s6.m3.message-date #{message.createdAt}
-        div.col.s6.m3.message-sender #{message.user.firstname} #{message.user.lastname}
-    div.row.message-content #{message.content}
+div(id="message_"+message.id class='message ' + message.state)
+    div.message-content-wrapper
+        div
+            span.message-date #{message.createdAt}
+            span  par
+            span.message-sender #{message.user.firstname} #{message.user.lastname}
+        div.message-content #{message.content}
+
 
