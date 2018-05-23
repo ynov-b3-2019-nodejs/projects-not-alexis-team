@@ -11,7 +11,7 @@ module.exports = (app) => {
     });
 
     app.get('/',(req,res) => {
-        res.render('base');
+        res.redirect('/chat');
     });
 };
 
