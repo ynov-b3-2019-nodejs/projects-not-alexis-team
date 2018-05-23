@@ -1,4 +1,4 @@
-module.exports = (app,db) =>{
+module.exports = (app,db,connectedUsers) =>{
     app.use((req,res) => {
         db.Message.findAll({
             include : [
@@ -24,7 +24,8 @@ module.exports = (app,db) =>{
                 })
             }
             res.render('chat',{
-                messages
+                messages,
+                connectedUsers
             })
         });
     })

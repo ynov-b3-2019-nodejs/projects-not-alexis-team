@@ -5,6 +5,7 @@ const auth = require('./utils/auth');
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const passport = require('./utils/auth').passport(db.User);
+const connectedUsers = [];
 
 console.log("App started at " , new Date().toLocaleString());
 
@@ -16,12 +17,12 @@ app.use(passport.session());
 require('./utils/default')(app);
 require('./utils/login.js')(app,auth,passport,db);
 //Declare routes behaviors here
-require('./endpoints/chat')(app,db);
+require('./endpoints/chat')(app,db,connectedUsers);
 
 
 //End of routes behaviors
 
-require('./sockets/main')(io,express.sessionMiddleware,db,passport);
+require('./sockets/main')(io,express.sessionMiddleware,db,passport,connectedUsers);
 
 //Errors management
 require('./utils/errors')(app);

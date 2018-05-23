@@ -1,4 +1,4 @@
-module.exports = (io, sessionMiddleware,db,passport) => {
+module.exports = (io, sessionMiddleware,db,passport,connectedUsers) => {
     //Declare sockets behavior here.
     io.use((socket,next) => {
         sessionMiddleware(socket.request,{},next);
@@ -12,7 +12,7 @@ module.exports = (io, sessionMiddleware,db,passport) => {
            });
        }
     });
-    require('./connected')(io); //Connection / Disconnection handler.
+    require('./connected')(io,connectedUsers); //Connection / Disconnection handler.
     io.on('connection', function(socket){
         require('./messages')(socket,db,io);
     });

@@ -1,5 +1,4 @@
-const connectedUsers = [];
-module.exports = (io) => {
+module.exports = (io,connectedUsers) => {
     io.on('connection', function(socket){
         connectedUsers.push(socket.request.session.full_user);
         io.emit('usr-connected',{
