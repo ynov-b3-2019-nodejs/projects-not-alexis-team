@@ -2,7 +2,7 @@ div(id="message_"+message.id class='message ' + message.state)
     div.message-content-wrapper
         div
             span.message-date #{message.createdAt}
-            span  par
+            span  par #{' '}
             span.message-sender #{message.user.firstname} #{message.user.lastname}
         div.message-content #{message.content}
 
