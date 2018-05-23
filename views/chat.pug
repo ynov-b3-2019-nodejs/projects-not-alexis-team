@@ -2,13 +2,20 @@ extends base.pug
 block links
     link(rel="stylesheet" href='/css/chat.css')
 block content
-    div.messages-wrapper.card
-        div.messages.card-content
-            for message in messages
-                include message
-    div.new-message
-        input(name='message')#new-message
-        a.btn#new-message-btn Envoyer
+    div.row
+        div.col.m8
+            div.messages-wrapper.card
+                div.messages.card-content
+                    for message in messages
+                        include message
+            div.new-message
+                input(name='message')#new-message
+                a.btn#new-message-btn Envoyer
+        div.col.m4
+            ul#connected-users.collection.with-header
+                li.collection-header MEMBRES CONNECTES
+                for user in connectedUsers
+                    li(id='usr-'+user.id).collection-item #{user.firstname} #{user.lastname}
 block scripts
     script(src='/scripts/socket-init.js')
     script(src='/scripts/chat.js')

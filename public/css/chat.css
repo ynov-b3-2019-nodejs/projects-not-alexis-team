@@ -37,3 +37,8 @@
     max-height: 70vh;
     overflow: scroll;
 }
+
+.collection.with-header .collection-header {
+    background-color: #ee6e73;
+    color: white;
+}

@@ -30,9 +30,9 @@ $('.message .message-date').each((i,o) => {
 });
 
 socket.on('usr-connected',(user) => {
-   console.log(user);
+  $('#connected-users').append('<div class="collection-item" id="usr-'+user.id+'">'+user.firstname + ' ' + user.lastname+'</div>');
 });
 
 socket.on('usr-disconnected',(user) => {
-    console.log(user);
+    $('#connected-users').find('#usr-'+user.id).remove();
 });
