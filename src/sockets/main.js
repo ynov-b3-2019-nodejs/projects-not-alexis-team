@@ -12,8 +12,8 @@ module.exports = (io, sessionMiddleware,db,passport) => {
            });
        }
     });
+    require('./connected')(io); //Connection / Disconnection handler.
     io.on('connection', function(socket){
-        console.log('[SOCKET] CONNECTED ',socket.request.session.passport);
         require('./messages')(socket,db,io);
     });
 };

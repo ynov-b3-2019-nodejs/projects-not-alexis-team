@@ -28,3 +28,11 @@ $('.message .message-date').each((i,o) => {
     console.log(o);
     $(o).text(new Date($(o).text()).toLocaleString());
 });
+
+socket.on('usr-connected',(user) => {
+   console.log(user);
+});
+
+socket.on('usr-disconnected',(user) => {
+    console.log(user);
+});
