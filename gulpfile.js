@@ -20,10 +20,10 @@ gulp.task('serve',() => {
         watch: ["src/*.js",'src/**/*.js'],
         env: {
             "COOKIE_SECRET": "1245",
-            "DATABASE":"nodetest",
-            "DB_USER":"datauser",
-            "DB_PASSWORD":"toto",
-            "DB_HOST":"localhost",
+            "DATABASE":"test",
+            "DB_USER":"test",
+            "DB_PASSWORD":"test",
+            "DB_HOST":"mariadb",
             "DB_DIALECT":"mysql",
             "SRV_PORT":3500
         },
