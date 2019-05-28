@@ -3,11 +3,14 @@ services:
   node:
     build: .
     ports:
-      - 3000:3000
+      - 3000:3500
     depends_on:
       - mariadb
     links:
       - mariadb
+    volumes:
+      - ./:/usr/src/app
+      - /usr/src/app/node_modules
   mariadb:
     image: mariadb
     volumes:
