@@ -1,5 +1,5 @@
 module.exports = (app,db,connectedUsers) =>{
-    app.use((req,res) => {
+    app.get('/chat',(req,res) => {
         db.Message.findAll({
             include : [
                 {

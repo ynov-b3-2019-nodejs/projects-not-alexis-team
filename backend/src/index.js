@@ -22,6 +22,7 @@ const connectedUsers = [];
     require('./endpoints/login.js')(app,auth,passport,db);
 //Declare routes behaviors here
     require('./endpoints/chat')(app,db,connectedUsers);
+    require('./endpoints/messages')(app,db);
 
 
 //End of routes behaviors
