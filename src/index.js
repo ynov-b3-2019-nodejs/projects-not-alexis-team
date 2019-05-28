@@ -15,8 +15,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
-require('./utils/default')(app);
-require('./utils/login.js')(app,auth,passport,db);
+require('./endpoints/default')(app);
+require('./endpoints/login.js')(app,auth,passport,db);
 //Declare routes behaviors here
 require('./endpoints/chat')(app,db,connectedUsers);
 
