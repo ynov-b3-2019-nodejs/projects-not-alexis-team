@@ -1,7 +1,7 @@
 version: '3'
 services:
-  node:
-    build: .
+  backend:
+    build: ./backend
     ports:
       - 3000:3500
     depends_on:
@@ -9,7 +9,14 @@ services:
     links:
       - mariadb
     volumes:
-      - ./:/usr/src/app
+      - ./backend/:/usr/src/app
+      - /usr/src/app/node_modules
+  frontend:
+    build: ./frontend
+    ports:
+      - 3001:3000
+    volumes:
+      - ./frontend/:/usr/src/app
       - /usr/src/app/node_modules
   mariadb:
     image: mariadb
@@ -17,6 +24,8 @@ services:
       - sql-data:/var/lib/mysql
     ports:
       - 3360:3306
+    env_file:
+      - ./backend/.env
     environment:
       MYSQL_DATABASE: ${MYSQL_DB}
       MYSQL_USER: ${MYSQL_USER}

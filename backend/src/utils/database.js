@@ -26,7 +26,7 @@ const models = requireModels(db, __dirname + '/../models');
 
 module.exports = async () => {
     try {
-        await retry(db.authenticate, 5, 3000);
+        await retry(() => { db.authenticate() }, 5, 3000);
         console.log("Connection to the MySQL server established successfully");
     } catch (e) {
         console.log("Failed to established connection with mysql server", e);
@@ -40,6 +40,8 @@ module.exports = async () => {
     }
     return Object.assign(db, models);
 };
+
+
 
 
 
