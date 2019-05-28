@@ -2,9 +2,9 @@
   "name": "project-2-julesaaelio",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
-    "test": "gulp serve"
+    "test": "nodemon --ext '*' src/index.js"
   },
   "repository": {
     "type": "git",
@@ -17,21 +17,22 @@
   },
   "homepage": "https://github.com/NodeCourse/project-2-JulesAaelio#readme",
   "dependencies": {
-    "bcrypt": "^2.0.1",
+    "bcrypt": "^3.0.6",
     "body-parser": "^1.18.3",
     "browser-sync": "^2.24.4",
     "cookie-parser": "^1.4.3",
+    "dotenv": "^8.0.0",
     "express": "^4.16.3",
     "express-session": "^1.15.6",
-    "gulp": "^3.9.1",
-    "gulp-nodemon": "^2.2.1",
     "jquery": "^3.3.1",
     "materialize-css": "^0.100.2",
-    "mysql2": "^1.5.3",
+    "mysql2": "^1.6.5",
+    "nodemon": "^1.19.1",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "pug": "^2.0.3",
-    "sequelize": "^4.37.7",
+    "sequelize": "^5.8.6",
+    "sequelize-require-models": "^0.1.0",
     "socket.io": "^2.1.1"
   }
 }

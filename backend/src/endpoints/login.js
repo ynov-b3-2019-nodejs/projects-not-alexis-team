@@ -12,6 +12,7 @@ module.exports  = (app,auth, passport, db) => {
             })(req, res);
         }
     );
+
     app.post('/register',auth.register(db.User));
     return app;
 };

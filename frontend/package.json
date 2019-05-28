@@ -1,0 +1,19 @@
+{
+  "name": "projet-not-alexis-team-frontend",
+  "version": "1.0.0",
+  "description": "Quick frontend using Next.js",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start"
+  },
+  "author": "Jules LAURENT",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "next": "^8.1.0",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
+  }
+}
