@@ -1,37 +1,45 @@
 const sequelize = require('sequelize');
-const bcrypt = require('bcrypt');
-const db = new sequelize(process.env.DATABASE,process.env.DB_USER,process.env.DB_PASSWORD,{
+const requireModels = require('sequelize-require-models');
+const retry = require('./retry');
+
+const db = new sequelize(process.env.DATABASE,process.env.DB_USER,process.env.DB_PASSWORD, {
     host: process.env.DB_HOST,
-    dialect: process.env.DB_DIALECT
+    dialect: process.env.DB_DIALECT,
+    retry: {
+        match: [
+            /SequelizeConnectionError/,
+            /SequelizeConnectionRefusedError/,
+            /SequelizeHostNotFoundError/,
+            /SequelizeHostNotReachableError/,
+            /SequelizeInvalidConnectionError/,
+            /SequelizeConnectionTimedOutError/,
+            /SequelizeHostNotFoundError/
+        ],
+        name: 'query',
+        timeout: 3000,
+        max: 3
+    }
 });
 
-db.authenticate().then((r) => {
-    console.log("[DATABASE] Connection established");
-}).catch(e => {
-    console.error(e);
-});
+const models = requireModels(db, __dirname + '/../models');
 
-const User = db.define('user', {
-    firstname : { type: sequelize.STRING } ,
-    lastname : { type: sequelize.STRING } ,
-    email : { type: sequelize.STRING } ,
-    password : { type: sequelize.STRING }
-});
 
-const Message = db.define('message',{
-    content: {type: sequelize.STRING}
-});
+module.exports = async () => {
+    try {
+        await retry(db.authenticate, 5, 3000);
+        console.log("Connection to the MySQL server established successfully");
+    } catch (e) {
+        console.log("Failed to established connection with mysql server", e);
+    }
 
-Message.belongsTo(User);
-User.hasMany(Message);
+    try {
+        await db.sync();
+        console.log("MySQL database has been synchronized");
+    } catch (e) {
+        console.error("error synchronizing", e);
+    }
+    return Object.assign(db, models);
+};
 
-// Sync database
-db.sync().then((r)=> {
-    console.log("[DATABASE] Database synchronised");
-}).catch(e => {
-    console.error(e);
-});
 
-module.exports.sequelize = db;
-module.exports.User = User;
-module.exports.Message = Message;
+
