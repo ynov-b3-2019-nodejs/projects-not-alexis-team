@@ -1,5 +1,9 @@
-module.exports = (app,db) =>{
-    app.get('/messages',(req,res) => {
+const express = require('express');
+
+module.exports = (db) =>{
+    const router = express.Router();
+
+    router.get('/',(req,res) => {
         db.Message.findAll({
             include : [
                 {
@@ -12,5 +16,7 @@ module.exports = (app,db) =>{
             });
             res.send(messages);
         });
-    })
+    });
+    return router;
+
 };
