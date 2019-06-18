@@ -32,7 +32,6 @@ const getCookieFromBrowser = key => {
 
 const getCookieFromServer = (key, req) => {
     console.log('grabbing key from server');
-    console.log(req);
 
     if (!req.headers.cookie) {
         return undefined;
@@ -40,5 +39,5 @@ const getCookieFromServer = (key, req) => {
 
 
     const cookies = new Cookies(req.headers.cookie);
-    return Cookies.get(key);
+    return cookies.get(key);
 };
