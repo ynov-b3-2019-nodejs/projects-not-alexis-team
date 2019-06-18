@@ -18,8 +18,6 @@ const WithAuth = Page => {
                 };
             }
 
-
-
             // Return props.
             return { ...pageProps, token, httpConfig }
 

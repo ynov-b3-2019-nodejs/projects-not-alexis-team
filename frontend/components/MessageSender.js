@@ -35,7 +35,6 @@ class MessageSender extends React.Component {
 
     async componentDidMount() {
         this.socket = io('http://localhost:3000');
-        // console.log(this.props.socketConfig)
     }
 
 
