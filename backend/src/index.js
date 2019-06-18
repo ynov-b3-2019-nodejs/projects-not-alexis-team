@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('./utils/express.js');
 const app = require('./utils/express.js').app;
 const auth = require('./utils/auth');
-const http = require('http').Server(app);
+const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 const connectedUsers = [];
 
@@ -28,10 +28,11 @@ const connectedUsers = [];
 
 
     // SOCKETS ENDPOINTS
-    require('./sockets/main')(io, express.sessionMiddleware, db, passport, connectedUsers);
+    require('./sockets/main')(io, db);
 
     //Errors management
     require('./utils/errors')(app);
+
 
     //Launch server
     http.listen(process.env.SRV_PORT, () => {

@@ -3,7 +3,7 @@ module.exports = (socket,db,io) =>  {
         console.log('Received: ' + content);
         db.Message.create({
             content,
-            userId : socket.request.session.full_user.id
+            userId : socket.user.id
         },{
             include: [db.User]
         }).then((r) => {

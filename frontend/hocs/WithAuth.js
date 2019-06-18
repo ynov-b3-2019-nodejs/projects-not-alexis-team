@@ -15,8 +15,10 @@ const WithAuth = Page => {
             if(token) {
                 httpConfig.headers = {
                     'Authorization' : `Bearer ${token}`
-                }
+                };
             }
+
+
 
             // Return props.
             return { ...pageProps, token, httpConfig }

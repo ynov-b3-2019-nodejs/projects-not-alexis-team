@@ -1,19 +1,13 @@
-module.exports = (io, sessionMiddleware,db,passport,connectedUsers) => {
-    //Declare sockets behavior here.
-    io.use((socket,next) => {
-        sessionMiddleware(socket.request,{},next);
-    });
-    io.use((socket,next) => {
-       if(socket.request.session.passport && socket.request.session.passport.user){
-           passport.deserializeCallback(socket.request.session.passport.user,(err,user) => {
-              if(err) throw err;
-              socket.request.session.full_user = user;
-              next()
-           });
-       }
-    });
-    require('./connected')(io,connectedUsers); //Connection / Disconnection handler.
-    io.on('connection', function(socket){
+const cookieParser = require('socket.io-cookie');
+
+module.exports = (io,db) => {
+    io.use(cookieParser);
+    io.use(require('./auth')(io,db));
+
+    // require('./connected')(io,connectedUsers); //Connection / Disconnection handler.
+
+    io.on('connection',(socket) => {
         require('./messages')(socket,db,io);
+
     });
 };

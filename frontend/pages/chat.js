@@ -2,6 +2,8 @@ import Message from "../components/Message";
 import axios from 'axios';
 import WithAuth from '../hocs/WithAuth'
 import * as React from "react";
+import io from 'socket.io-client';
+import MessageSender from "../components/MessageSender";
 
 
 class Chat extends React.Component {
@@ -19,7 +21,17 @@ class Chat extends React.Component {
 
         this.setState({
             messages: response.data
-        })
+        });
+
+        this.socket = io('http://localhost:3000');
+
+        this.socket.on('msg-bd',(msg) => {
+            console.log(msg);
+            this.setState({
+                messages: [...this.state.messages, msg]
+            });
+            console.log(this.state.messages);
+        });
     }
 
 
@@ -36,7 +48,10 @@ class Chat extends React.Component {
             }
         }
 
-        return displayedMessages;
+        return (<div>
+            <ul>{displayedMessages}</ul>
+            <MessageSender/>
+        </div>)
     }
 }
 
