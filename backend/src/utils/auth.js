@@ -1,9 +1,36 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcrypt');
+const JwtStrategy = require('passport-jwt').Strategy;
+const ExtractJwt = require('passport-jwt').ExtractJwt;
 
 function init(User) {
-    passport.use(new LocalStrategy((email, password, done) => {
+
+    // JWT
+
+    const JwtStrategyOptions = {
+        jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+        secretOrKey: process.env.JWT_SECRET
+    };
+    const jwtStrategy = new JwtStrategy(JwtStrategyOptions, (payload, done) => {
+        console.log(payload);
+        User.findOne({
+            where : { email: payload.email  }
+        }).then(user => {
+            if(user) {
+                return done(null, user)
+            }else {
+                return done(null, false);
+            }
+        }).catch(e => {
+            return done(e, false)
+        });
+    });
+
+
+    // STANDARD
+
+    const localStrategy = new LocalStrategy((email, password, done) => {
         console.log('[AUTH]',email,password);
         User
             .findOne({
@@ -24,19 +51,15 @@ function init(User) {
                         message: 'Unknown user'
                     });
                 }
-        })
-        // If an error occured, report it
-            .catch(done);
-    }));
+        }).catch(done);
+    });
 
     // Save the user's email address in the cookie
     passport.serializeUser((user, cookieBuilder) => {
         cookieBuilder(null, user.email);
     });
 
-    passport.deserializeUser(deserializeCallback);
     function deserializeCallback(email, cb) {
-        console.log("AUTH ATTEMPT",email);
         // Fetch the user record corresponding to the provided email address
         User.findOne({
             where : { email }
@@ -45,53 +68,17 @@ function init(User) {
             else return cb(new Error("No user corresponding to the cookie's email address"));
         });
     }
+
+    passport.deserializeUser(deserializeCallback);
+
     passport.deserializeCallback = deserializeCallback;
+
+
+    // STRATEGY MANAGEMENT
+    passport.use(jwtStrategy);
+    passport.use(localStrategy);
 
     return passport;
 }
 
-
-
-function registerCallback(User) {
-    return (req, res) => {
-        if (req.body && req.body.firstname && req.body.lastname && req.body.password && req.body.email) {
-            User.findOne({
-                where: {
-                    email: req.body.email,
-                }
-            }).then((r) => {
-                if (r) {
-                    res.render('login', {
-                        errors: {
-                            signup: [
-                                "Cette addresse est déjà utilisée."
-                            ]
-                        }
-                    })
-                } else {
-                    bcrypt.hash(req.body.password,10).then((password => {
-                        User.create({
-                            firstname: req.body.firstname,
-                            lastname: req.body.lastname,
-                            password: password,
-                            email: req.body.email,
-                        }).then((r) => {
-                            console.log('[AUTH]User created');
-                            req.login(r, (r) => {
-                                res.redirect('/');
-                            });
-
-                        }).catch(e => {
-                            console.error(e);
-                        })
-                    }))
-                }
-            })
-        }
-    }
-}
-
 module.exports.passport = init;
-module.exports.register = registerCallback;
-
-

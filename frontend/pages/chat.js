@@ -1,38 +1,43 @@
 import Message from "../components/Message";
-import axios from "axios";
+import axios from 'axios';
+import WithAuth from '../hocs/WithAuth'
+import * as React from "react";
 
-function Chat({ messages }) {
-    console.log(messages);
-    // const messages = [
-    //     {
-    //         date: new Date(),
-    //         sender: {
-    //             firstname: "Jules"
-    //         },
-    //         content: "tests",
-    //         sent: true
-    //     }, {
-    //         date: new Date(),
-    //         sender: {
-    //             firstname: "Jules"
-    //         },
-    //         content: "tests",
-    //         sent: false
-    //     }
-    // ];
 
-    const displayedMessages = [];
-    for (let i = 0; i < messages.length; i++) {
-        displayedMessages.push( <Message message={ messages[i] }/>)
+class Chat extends React.Component {
+    state = {
+        messages: []
+    };
+
+    constructor(props) {
+        super(props);
     }
-    return displayedMessages;
+
+    async componentDidMount() {
+        console.log(this.props);
+        const response = await axios.get('http://localhost:3000/messages', this.props.httpConfig);
+
+        this.setState({
+            messages: response.data
+        })
+    }
+
+
+    static getInitialProps = async () => {
+        return {};
+    };
+
+    render() {
+        const displayedMessages = [];
+        const messages = this.state.messages;
+        if(messages) {
+            for (let i = 0; i < messages.length; i++) {
+                displayedMessages.push( <Message message={ messages[i] }/>)
+            }
+        }
+
+        return displayedMessages;
+    }
 }
 
-Chat.getInitialProps = async () => {
-    const response = await axios.get('http://backend:3500/messages');
-    console.log(response.data);
-    return {
-        messages: response.data
-    }
-};
-export default Chat;
+export default WithAuth(Chat);
