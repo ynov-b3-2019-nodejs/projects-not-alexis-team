@@ -1,7 +1,9 @@
 import Message from "../components/Message";
-import axios from "axios";
+import http from '../utils/Axios';
+import WithAxios from '../hocs/WithAxios'
 
-function Chat({ messages }) {
+
+async function Chat({ messages }) {
     const displayedMessages = [];
     for (let i = 0; i < messages.length; i++) {
         displayedMessages.push( <Message message={ messages[i] }/>)
@@ -9,9 +11,10 @@ function Chat({ messages }) {
     return displayedMessages;
 }
 
+
 Chat.getInitialProps = async () => {
     try {
-        const response = await axios.get('http://backend:3500/messages');
+        const response = await http.get('http://backend:3500/messages');
         return {
             messages: response.data
         }
@@ -21,4 +24,5 @@ Chat.getInitialProps = async () => {
         }
     }
 };
-export default Chat;
+
+export default WithAxios(Chat);
