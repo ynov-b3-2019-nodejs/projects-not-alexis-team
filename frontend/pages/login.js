@@ -10,9 +10,6 @@ import React from 'react'
 class Login extends React.Component {
     constructor(props) {
         super(props);
-        if(props.token) {
-            Router.push('/chat');
-        }
     }
     render() {
         return <LoginForm submissionHandler={this.handleLogin} />

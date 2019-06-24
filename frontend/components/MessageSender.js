@@ -26,8 +26,6 @@ class MessageSender extends React.Component {
 
     handleFormSubmit  = (e) => {
         e.preventDefault();
-        console.log(this.state.content);
-        console.log(this.socket);
         this.socket.emit('msg', this.state.content);
 
 
