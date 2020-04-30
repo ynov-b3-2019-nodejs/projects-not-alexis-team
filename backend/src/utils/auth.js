@@ -12,7 +12,6 @@ function init(User) {
         secretOrKey: process.env.JWT_SECRET
     };
     const jwtStrategy = new JwtStrategy(JwtStrategyOptions, (payload, done) => {
-        console.log(payload);
         User.findOne({
             where : { email: payload.email  }
         }).then(user => {
@@ -28,7 +27,6 @@ function init(User) {
 
 
     // STANDARD
-
     const localStrategy = new LocalStrategy((email, password, done) => {
         console.log('[AUTH]',email,password);
         User
@@ -52,25 +50,25 @@ function init(User) {
                 }
         }).catch(done);
     });
+    //
+    // // Save the user's email address in the cookie
+    // passport.serializeUser((user, cookieBuilder) => {
+    //     cookieBuilder(null, user.email);
+    // });
 
-    // Save the user's email address in the cookie
-    passport.serializeUser((user, cookieBuilder) => {
-        cookieBuilder(null, user.email);
-    });
+    // function deserializeCallback(email, cb) {
+    //     // Fetch the user record corresponding to the provided email address
+    //     User.findOne({
+    //         where : { email }
+    //     }).then(r => {
+    //         if(r) return cb(null, r);
+    //         else return cb(new Error("No user corresponding to the cookie's email address"));
+    //     });
+    // }
 
-    function deserializeCallback(email, cb) {
-        // Fetch the user record corresponding to the provided email address
-        User.findOne({
-            where : { email }
-        }).then(r => {
-            if(r) return cb(null, r);
-            else return cb(new Error("No user corresponding to the cookie's email address"));
-        });
-    }
-
-    passport.deserializeUser(deserializeCallback);
-
-    passport.deserializeCallback = deserializeCallback;
+    // passport.deserializeUser(deserializeCallback);
+    //
+    // passport.deserializeCallback = deserializeCallback;
 
 
     // STRATEGY MANAGEMENT

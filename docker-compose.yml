@@ -27,7 +27,7 @@ services:
     volumes:
       - sql-data:/var/lib/mysql
     ports:
-      - 3360:3306
+      - 3380:3306
     env_file:
       - ./backend/.env
     environment:
